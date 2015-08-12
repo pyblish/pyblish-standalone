@@ -1,0 +1,2 @@
+# pyblish-standalone
+Pyblish Standalone
