@@ -13,6 +13,7 @@ class CollectArgs(pyblish.api.Collector):
 
     def process(self, context):
 
+        data = {}
         for count in range(0, len(sys.argv)):
             if sys.argv[count] == '-data':
                 if not sys.argv[count + 1].startswith('-'):
@@ -20,6 +21,9 @@ class CollectArgs(pyblish.api.Collector):
                     value = sys.argv[count + 2]
 
                     context.set_data(key, value=value)
+                    data[key] = value
+
+        context.set_data('args', value=data)
 
 
 def main():
