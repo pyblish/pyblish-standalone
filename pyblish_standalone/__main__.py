@@ -11,11 +11,7 @@ def cli():
     parser.add_argument("-d", "--data", nargs=2, action="append",
                         metavar=("key", "value"),
                         help="Append data to context")
-
-    try:
-        kwargs = parser.parse_args(sys.argv[1:])
-    except SystemExit as e:
-        raise Exception(e)
+    kwargs = parser.parse_args(sys.argv[1:])
 
     # Store reference to keyword arguments, for Collection
     pyblish_standalone.kwargs = kwargs
