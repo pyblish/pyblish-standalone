@@ -24,7 +24,7 @@ def cli():
 
     executable.start()
 
-    print("Press any key to quit..")
+    print("Press Enter to quit..")
     raw_input()
 
     # Close GUI on terminal session end
