@@ -1,6 +1,6 @@
-import sys
-
 import pyblish.api
+import pyblish_standalone
+
 
 class CollectKwargs(pyblish.api.Collector):
     """ Collects all keyword arguments passed from the terminal """
@@ -8,33 +8,10 @@ class CollectKwargs(pyblish.api.Collector):
     order = pyblish.api.Collector.order - 0.1
 
     def process(self, context):
+        kwargs = pyblish_standalone.kwargs.__dict__.copy()
 
-        data = {}
-        for count in range(0, len(sys.argv)):
-            if sys.argv[count].startswith('--'):
+        self.log.info("Converting kwargs from tuple to dict")
+        kwargs["data"] = dict(kwargs.pop("data"))
 
-                subcount = count + 1
-                args_data = []
-                while True:
-                    if subcount >= len(sys.argv):
-                        break
-
-                    if sys.argv[subcount].startswith('--'):
-                        break
-                    args_data.append(sys.argv[subcount])
-                    subcount += 1
-
-                if len(args_data) == 1:
-                    data[sys.argv[count][2:]] = args_data[0]
-
-                if len(args_data) == 2:
-
-                    if sys.argv[count][2:] in data:
-                        data[sys.argv[count][2:]][args_data[0]] = args_data[1]
-                    else:
-                        data[sys.argv[count][2:]] = {args_data[0]: args_data[1]}
-
-                if len(args_data) > 2:
-                    data[sys.argv[count][2:]] = args_data
-
-        context.set_data('kwargs', value=data)
+        self.log.info("Storing kwargs: %s" % kwargs)
+        context.set_data("kwargs", kwargs)
