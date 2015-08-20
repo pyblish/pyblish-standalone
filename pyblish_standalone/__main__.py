@@ -12,8 +12,12 @@ def cli():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", nargs=2, action="append",
                         metavar=("key", "value"),
-                        help="Append data to context")
-    parser.add_argument("--path", action="append")
+                        help=("Append data to context, "
+                              "can be called multiple times"))
+    parser.add_argument("--path", action="append",
+                        help=("Append path to PYBLISHPLUGINPATH, "
+                              "can be called multiple times"))
+
     kwargs = parser.parse_args(sys.argv[1:])
 
     # Store reference to keyword arguments, for Collection
