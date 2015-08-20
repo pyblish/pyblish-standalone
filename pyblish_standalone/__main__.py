@@ -25,7 +25,7 @@ def cli():
 
     plugins_path = os.path.join(os.path.dirname(__file__), "plugins")
 
-    pyblish_path = os.environ.get("PYBLISHPLUGINPATH", "").split()
+    pyblish_path = os.environ.get("PYBLISHPLUGINPATH", "").split(os.pathsep)
     pyblish_path.append(plugins_path)
     pyblish_path.extend(kwargs.path or [])
 
