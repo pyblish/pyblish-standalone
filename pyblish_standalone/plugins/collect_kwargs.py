@@ -10,5 +10,8 @@ class CollectKwargs(pyblish.api.Collector):
     def process(self, context):
         kwargs = pyblish_standalone.kwargs.copy()
 
+        self.log.info("Converting nested lists to dict: %s" % kwargs)
+        kwargs["data"] = dict(kwargs.get("data") or [])
+
         self.log.info("Storing kwargs: %s" % kwargs)
         context.set_data("kwargs", kwargs)
