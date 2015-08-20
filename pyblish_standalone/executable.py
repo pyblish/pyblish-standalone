@@ -1,11 +1,14 @@
 import time
 import socket
 
+import pyblish.api
 import pyblish_integration.lib
 
 
 def start():
     """Start Pyblish QML"""
+
+    pyblish.api.register_host("standalone")
     pyblish_integration.setup()
 
     max_tries = 5
