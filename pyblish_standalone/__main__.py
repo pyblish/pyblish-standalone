@@ -1,5 +1,7 @@
 import os
 import sys
+import time
+import socket
 import argparse
 
 import executable
@@ -11,25 +13,34 @@ def cli():
     parser.add_argument("-d", "--data", nargs=2, action="append",
                         metavar=("key", "value"),
                         help="Append data to context")
+    parser.add_argument("--path", action="append")
     kwargs = parser.parse_args(sys.argv[1:])
 
     # Store reference to keyword arguments, for Collection
-    pyblish_standalone.kwargs = kwargs
+    pyblish_standalone.kwargs = kwargs.__dict__
 
-    plugins_path = os.path.join(os.path.dirname(__file__), 'plugins')
-    try:
-        os.environ['PYBLISHPLUGINPATH'] += os.pathsep + plugins_path
-    except:
-        os.environ['PYBLISHPLUGINPATH'] = plugins_path
+    plugins_path = os.path.join(os.path.dirname(__file__), "plugins")
+
+    pyblish_path = os.environ.get("PYBLISHPLUGINPATH", "").split()
+    pyblish_path.append(plugins_path)
+    pyblish_path.extend(kwargs.path or [])
+
+    os.environ["PYBLISHPLUGINPATH"] = os.pathsep.join(pyblish_path)
 
     executable.start()
 
-    print("Press Enter to quit..")
-    raw_input()
 
-    # Close GUI on terminal session end
-    executable.stop()
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     cli()
+    print("Press Ctrl-C to quit..")
+
+    try:
+        while True:
+            time.sleep(1)
+    except (KeyboardInterrupt, SystemExit):
+        # Close GUI on terminal session end
+        try:
+            executable.stop()
+        except socket.error:
+            # QML client closed before host? No problem.
+            pass
