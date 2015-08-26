@@ -10,7 +10,10 @@ class CollectData(pyblish.api.Collector):
     def process(self, context):
         self.log.info("Adding data from command-line into Context..")
 
-        data = dict(pyblish_standalone.kwargs.get("data") or {})
+        kwargs = pyblish_standalone.kwargs.copy()
+        context.set_data("currentFile", kwargs.get("file"))
+
+        data = dict(kwargs.get("data") or {})
         for key, value in data.iteritems():
             self.log.info("%s = %s" % (key, value))
             context.set_data(key, value)

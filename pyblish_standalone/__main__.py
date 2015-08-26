@@ -10,6 +10,9 @@ import pyblish_standalone
 
 def cli():
     parser = argparse.ArgumentParser()
+
+    parser.add_argument("file", nargs="?",
+                        help="Pass file to Context as `currentFile`")
     parser.add_argument("-d", "--data", nargs=2, action="append",
                         metavar=("key", "value"),
                         help=("Append data to context, "
