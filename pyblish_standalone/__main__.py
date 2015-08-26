@@ -9,7 +9,7 @@ import pyblish_standalone
 
 
 def cli():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="pyblish_standalone")
 
     parser.add_argument("file", nargs="?",
                         help="Pass file to Context as `currentFile`")
