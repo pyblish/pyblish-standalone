@@ -44,4 +44,8 @@ setup(
     zip_safe=False,
     classifiers=classifiers,
     package_data={"pyblish_standalone": ["plugins/*.py"]},
+    install_requires=[
+        "pyblish-base>=1.4",
+        "pyblish-qml>=0.7.0"
+    ],
 )
