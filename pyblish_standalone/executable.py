@@ -2,7 +2,7 @@ import time
 import socket
 
 import pyblish.api
-import pyblish_integration.lib
+import pyblish_qml
 
 
 def start(hosts=[]):
@@ -12,13 +12,13 @@ def start(hosts=[]):
     for host in hosts:
         pyblish.api.register_host(host)
 
-    pyblish_integration.setup()
+    pyblish_qml.install()
 
     max_tries = 5
     while True:
         try:
             time.sleep(0.5)
-            pyblish_integration.show()
+            pyblish_qml.show()
         except socket.error as e:
             if max_tries <= 0:
                 raise Exception("Couldn't run Pyblish QML: %s" % e)
@@ -33,4 +33,4 @@ def start(hosts=[]):
 
 def stop():
     """Hide Pyblish QML"""
-    pyblish_integration.lib.proxy.hide()
+    pyblish_qml.hide()
