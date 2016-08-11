@@ -22,6 +22,8 @@ def cli():
                               "can be called multiple times"))
     parser.add_argument("-rh", "--register-host", action="append",
                         help=("Append hosts to register."))
+    parser.add_argument("-rg", "--register-gui", action="append",
+                        help=("Append guis to register."))
 
     kwargs = parser.parse_args(sys.argv[1:])
 
@@ -36,10 +38,30 @@ def cli():
 
     os.environ["PYBLISHPLUGINPATH"] = os.pathsep.join(pyblish_path)
 
+    # collect hosts passed
     hosts = kwargs.__dict__["register_host"]
     if not hosts:
         hosts = []
-    executable.start(hosts=hosts)
+
+    # register guis
+    gui = None
+    guis = []
+    try:
+        for g in kwargs.register_gui:
+            gui = __import__(g)
+            guis.append(g)
+    except:
+        import traceback
+        print traceback.format_exc()
+        pass
+
+    if gui:
+        print "Found gui: %s" % gui
+    else:
+        print "No valid guis registered in: %s" % guis
+        return
+
+    executable.start(gui, hosts=hosts)
 
 
 if __name__ == "__main__":
