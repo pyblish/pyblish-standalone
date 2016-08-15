@@ -24,6 +24,7 @@ def cli():
                         help=("Append hosts to register."))
     parser.add_argument("-rg", "--register-gui", action="append",
                         help=("Append guis to register."))
+    parser.add_argument("--debug", action="store_true")
 
     kwargs = parser.parse_args(sys.argv[1:])
 
@@ -37,6 +38,16 @@ def cli():
     pyblish_path.extend(kwargs.path or [])
 
     os.environ["PYBLISHPLUGINPATH"] = os.pathsep.join(pyblish_path)
+
+    # debug mode
+    if kwargs.debug:
+        from . import mock
+        import pyblish.api
+
+        for Plugin in mock.plugins:
+            pyblish.api.register_plugin(Plugin)
+
+        print "Enter debug mode..."
 
     # collect hosts passed
     hosts = kwargs.__dict__["register_host"]
