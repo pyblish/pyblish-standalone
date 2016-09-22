@@ -25,6 +25,8 @@ def cli():
     parser.add_argument("-rg", "--register-gui", action="append",
                         help=("Append guis to register."))
     parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--port", nargs='?',
+                        help=("Port to communicate with Adobe Products"))
 
     kwargs = parser.parse_args(sys.argv[1:])
 
