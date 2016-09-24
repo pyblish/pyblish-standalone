@@ -77,15 +77,4 @@ def cli():
 
 if __name__ == "__main__":
     cli()
-    print("Press Ctrl-C to quit..")
-
-    try:
-        while True:
-            time.sleep(1)
-    except (KeyboardInterrupt, SystemExit):
-        # Close GUI on terminal session end
-        try:
-            executable.stop()
-        except socket.error:
-            # QML client closed before host? No problem.
-            pass
+    executable.stop()
