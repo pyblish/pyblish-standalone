@@ -30,4 +30,8 @@ def start(gui, hosts=[]):
 
 def stop():
     """Hide Pyblish QML"""
-    pass
+    try:
+        import pyblish_aftereffects
+        pyblish_aftereffects.stop_server()
+    except:
+        pass
