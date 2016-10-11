@@ -10,9 +10,9 @@ def start(gui, hosts=[]):
     Loops through 5 attempts to show the gui, due to qml server nature.
     It also registers any hosts along with it self "standalone".
 
-        Args:
-            gui (module): Module that has a "show" method.
-            hosts (list): List of host names to register before starting.
+    Args:
+        gui (module): Module that has a "show" method.
+        hosts (list): List of host names to register before starting.
     """
 
     pyblish.api.register_host("standalone")
