@@ -5,7 +5,14 @@ import pyblish.api
 
 
 def start(gui, hosts=[]):
-    """Start Pyblish QML"""
+    """ This loops through 5 attempts to show the gui,
+        due to qml server nature.
+        It also registers any hosts along with it self "standalone".
+
+        Args:
+            gui (module): Module that has a "show" method.
+            hosts (list): List of host names to register before starting.
+    """
 
     pyblish.api.register_host("standalone")
     for host in hosts:
@@ -29,7 +36,7 @@ def start(gui, hosts=[]):
 
 
 def stop():
-    """Hide Pyblish QML"""
+    """ Called when shutting down. """
     try:
         import pyblish_aftereffects
         pyblish_aftereffects.stop_server()

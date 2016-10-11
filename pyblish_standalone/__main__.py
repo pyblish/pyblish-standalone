@@ -1,7 +1,5 @@
 import os
 import sys
-import time
-import socket
 import argparse
 
 import executable
@@ -16,15 +14,18 @@ def cli():
     parser.add_argument("-d", "--data", nargs=2, action="append",
                         metavar=("key", "value"),
                         help=("Append data to context, "
-                              "can be called multiple times"))
+                              "can be called multiple times."))
     parser.add_argument("--path", action="append",
                         help=("Append path to PYBLISHPLUGINPATH, "
                               "can be called multiple times"))
     parser.add_argument("-rh", "--register-host", action="append",
-                        help=("Append hosts to register."))
+                        help=("Register host name before "
+                              "starting the Pyblish."))
     parser.add_argument("-rg", "--register-gui", action="append",
-                        help=("Append guis to register."))
-    parser.add_argument("--debug", action="store_true")
+                        help=("Validates and uses the gui name "
+                              "in the order specified."))
+    parser.add_argument("--debug", action="store_true",
+                        help=("Registers mock plugins for debugging."))
 
     kwargs = parser.parse_args(sys.argv[1:])
 
