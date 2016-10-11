@@ -2,23 +2,28 @@ import time
 import socket
 
 import pyblish.api
-import pyblish_integration.lib
 
 
-def start(hosts=[]):
-    """Start Pyblish QML"""
+def start(gui, hosts=[]):
+    """ This starts the supplied gui.
+
+    Loops through 5 attempts to show the gui, due to qml server nature.
+    It also registers any hosts along with it self "standalone".
+
+    Args:
+        gui (module): Module that has a "show" method.
+        hosts (list): List of host names to register before starting.
+    """
 
     pyblish.api.register_host("standalone")
     for host in hosts:
         pyblish.api.register_host(host)
 
-    pyblish_integration.setup()
-
     max_tries = 5
     while True:
         try:
             time.sleep(0.5)
-            pyblish_integration.show()
+            gui.show()
         except socket.error as e:
             if max_tries <= 0:
                 raise Exception("Couldn't run Pyblish QML: %s" % e)
@@ -32,5 +37,9 @@ def start(hosts=[]):
 
 
 def stop():
-    """Hide Pyblish QML"""
-    pyblish_integration.lib.proxy.hide()
+    """ Called when shutting down. """
+    try:
+        import pyblish_aftereffects
+        pyblish_aftereffects.stop_server()
+    except:
+        pass
